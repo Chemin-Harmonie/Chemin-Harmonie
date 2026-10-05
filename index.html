@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemin d'Harmonie & Bien-Être | Salon de Massage Aix-en-Provence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* DESIGN SYSTEM & VARIABLES */
+        :root {
+            --sage-green: #425B49;
+            --cream-bg: #FAF6F0;
+            --terracotta: #AD6B54;
+            --slate-text: #2C3630;
+            --card-bg: #FFFFFF;
+            --radius-main: 40px;
+            --radius-sub: 24px;
+            --shadow-soft: 0 15px 35px rgba(66, 91, 73, 0.06);
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--cream-bg); color: var(--slate-text); line-height: 1.7; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--sage-green); font-weight: 700; }
+
+        section { padding: 100px 5%; max-width: 1400px; margin: 0 auto; }
+        .section-title { font-size: 2.5rem; text-align: center; margin-bottom: 60px; position: relative; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 3px; background-color: var(--terracotta); margin: 20px auto 0; border-radius: 10px; }
+
+        /* NAVIGATION & BURGER MENU */
+        nav { position: fixed; top: 0; left: 0; width: 100%; padding: 25px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 100; transition: var(--transition-smooth); }
+        nav.scrolled { background-color: rgba(250, 246, 240, 0.95); backdrop-filter: blur(10px); padding: 15px 5%; box-shadow: 0 5px 20px rgba(0,0,0,0.02); }
+        .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--sage-green); text-decoration: none; letter-spacing: 1px; }
+        .burger-btn { background: none; border: none; cursor: pointer; font-size: 1.5rem; color: var(--sage-green); z-index: 102; transition: var(--transition-smooth); }
+        
+        .side-menu { position: fixed; top: 0; right: -100%; width: 350px; height: 100vh; background-color: var(--card-bg); z-index: 101; padding: 100px 40px; box-shadow: -10px 0 40px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 30px; transition: var(--transition-smooth); border-top-left-radius: var(--radius-main); border-bottom-left-radius: var(--radius-main); }
+        .side-menu.active { right: 0; }
+        .side-menu a { font-size: 1.2rem; color: var(--slate-text); text-decoration: none; font-weight: 500; transition: var(--transition-smooth); }
+        .side-menu a:hover { color: var(--terracotta); padding-left: 10px; }
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(44, 54, 48, 0.2); backdrop-filter: blur(4px); z-index: 99; display: none; }
+        .menu-overlay.active { display: block; }
+
+        /* HERO BANNER WITH FADE CAROUSEL */
+        .hero { position: relative; height: 100vh; width: 100vw; max-width: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; padding: 0; }
+        .hero-carousel { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .carousel-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.5s ease-in-out; }
+        .carousel-img.active { opacity: 1; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(250,246,240,0.4) 0%, rgba(250,246,240,0.9) 100%); z-index: 2; }
+        .hero-center { position: relative; z-index: 3; text-align: center; padding: 0 20px; }
+        
+        .main-logo { width: 220px; height: 220px; object-fit: contain; margin: 0 auto 20px; display: block; border-radius: 50%; box-shadow: var(--shadow-soft); background-color: var(--cream-bg); }
+        .hero h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 15px; }
+        .hero p { font-size: 1.3rem; color: var(--terracotta); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* PRESENTATION & DIPLOMES (TWO COLUMNS) */
+        .presentation { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 40px; }
+        .presentation.reverse { direction: rtl; }
+        .presentation.reverse > * { direction: ltr; }
+        
+        .presentation-carousel-container { position: relative; width: 100%; height: 500px; border-radius: var(--radius-main); overflow: hidden; box-shadow: var(--shadow-soft); }
+        .pres-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; }
+        .pres-slide.active { opacity: 1; }
+        
+        .presentation-img { width: 100%; height: 500px; object-fit: cover; border-radius: var(--radius-main); box-shadow: var(--shadow-soft); }
+        .presentation-text h3 { font-size: 2rem; margin-bottom: 25px; }
+        .presentation-text p { font-size: 1.1rem; margin-bottom: 20px; }
+
+        /* CARDS SOINS SECTION */
+        .soins-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 20px; }
+        .soin-card { background-color: var(--card-bg); border-radius: var(--radius-main); padding: 40px 30px; text-align: center; box-shadow: var(--shadow-soft); transition: var(--transition-smooth); display: flex; flex-direction: column; align-items: center; }
+        .soin-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(66, 91, 73, 0.1); }
+        .soin-icon-wrapper { width: 90px; height: 90px; background-color: rgba(173, 107, 84, 0.08); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-bottom: 30px; color: var(--terracotta); font-size: 2rem; }
+        .soin-card h3 { font-size: 1.6rem; margin-bottom: 20px; }
+        .soin-card p { font-size: 1rem; color: var(--slate-text); }
+
+        /* AVIS SECTION */
+        .reviews-section { background-color: var(--card-bg); border-radius: var(--radius-main); box-shadow: var(--shadow-soft); padding: 80px 5%; margin-bottom: 100px; }
+        .reviews-wrapper { position: relative; max-width: 1000px; margin: 0 auto; overflow: hidden; height: 250px; }
+        .reviews-container { display: grid; grid-template-columns: 1fr; gap: 40px; position: absolute; width: 100%; opacity: 0; pointer-events: none; transition: opacity 0.6s ease-in-out; }
+        .reviews-container.active { opacity: 1; pointer-events: auto; }
+        .review-card { background-color: var(--cream-bg); padding: 40px; border-radius: var(--radius-sub); position: relative; text-align: center; }
+        .review-card blockquote { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-style: italic; margin-bottom: 20px; color: var(--sage-green); line-height: 1.5; }
+        .review-author { font-size: 1rem; font-weight: 600; color: var(--terracotta); text-transform: uppercase; letter-spacing: 1px; }
+        .reviews-nav { display: flex; justify-content: center; gap: 20px; margin-top: 40px; }
+        .nav-arrow { background: none; border: 1px solid var(--sage-green); color: var(--sage-green); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; transition: var(--transition-smooth); }
+        .nav-arrow:hover { background-color: var(--sage-green); color: var(--cream-bg); }
+
+        /* TARIFS TABLE SECTION (MOBILE FIXED) */
+        .tarifs-wrapper { max-width: 1000px; margin: 0 auto; overflow-x: auto; padding-bottom: 20px; }
+        table { width: 100%; min-width: 650px; border-collapse: separate; border-spacing: 0; background-color: var(--card-bg); border-radius: var(--radius-main); overflow: hidden; box-shadow: var(--shadow-soft); }
+        th { background-color: var(--sage-green); color: var(--cream-bg); padding: 25px 35px; font-size: 1.2rem; font-weight: 500; text-align: left; }
+        td { padding: 25px 35px; border-bottom: 1px solid rgba(66, 91, 73, 0.06); font-size: 1.1rem; font-weight: 500; }
+        tr:last-child td { border-bottom: none; }
+        td strong { color: var(--sage-green); font-family: 'Playfair Display', serif; font-size: 1.2rem; }
+
+        /* FOOTER / CONTACT SECTION */
+        footer { background-color: var(--sage-green); color: var(--cream-bg); padding: 80px 5% 40px; border-top-left-radius: var(--radius-main); border-top-right-radius: var(--radius-main); text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr; max-width: 1100px; margin: 0 auto 50px; gap: 60px; text-align: left; }
+        .footer-info h3 { color: var(--cream-bg); font-size: 2rem; margin-bottom: 25px; }
+        .footer-info p { font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; }
+        .footer-info p i { color: var(--terracotta); }
+        
+        .footer-cta { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 20px; width: 100%; }
+        .btn-call { display: inline-flex; align-items: center; gap: 15px; background-color: var(--terracotta); color: white; text-decoration: none; padding: 18px 35px; border-radius: var(--radius-sub); font-weight: 600; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: var(--transition-smooth); width: 100%; justify-content: center; text-align: center; }
+        .btn-call:hover { background-color: #945842; transform: translateY(-3px); }
+        .btn-whatsapp { display: inline-flex; align-items: center; gap: 15px; background-color: #25D366; color: white; text-decoration: none; padding: 18px 35px; border-radius: var(--radius-sub); font-weight: 600; font-size: 1.1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: var(--transition-smooth); width: 100%; justify-content: center; text-align: center; }
+        .btn-whatsapp:hover { background-color: #1ebe57; transform: translateY(-3px); }
+        
+        .social-container { display: flex; align-items: center; gap: 20px; margin-top: 10px; width: 100%; flex-wrap: wrap; }
+        .social-text { font-size: 1.1rem; font-weight: 500; color: var(--cream-bg); }
+        .social-links { display: flex; gap: 15px; }
+        .social-icon { width: 50px; height: 50px; border-radius: 50%; background-color: rgba(250, 246, 240, 0.1); color: var(--cream-bg); display: flex; justify-content: center; align-items: center; font-size: 1.3rem; text-decoration: none; transition: var(--transition-smooth); }
+        .social-icon:hover { background-color: var(--terracotta); color: white; }
+        .footer-credits { border-top: 1px solid rgba(250, 246, 240, 0.1); padding-top: 30px; font-size: 0.9rem; opacity: 0.8; }
+
+        /* ========================================================
+           RESPONSIVE DESIGN (CORRECTIONS MOBILES) 
+           ======================================================== */
+           
+        @media (max-width: 1024px) {
+            .presentation { grid-template-columns: 1fr; gap: 40px; }
+            .presentation.reverse > * { direction: ltr; }
+            .soins-grid { grid-template-columns: 1fr; gap: 30px; }
+            .reviews-wrapper { height: 350px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .footer-cta { align-items: center; }
+            .footer-info p { justify-content: center; }
+            .social-container { justify-content: center; flex-direction: column; gap: 15px; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .side-menu { width: 100%; border-radius: 0; }
+            .presentation-carousel-container, .presentation-img { height: 350px; }
+            
+            /* --- FIX: Boîte d'avis qui coupe le texte --- */
+            .reviews-wrapper { height: 420px; } /* Plus haut pour ne pas cacher la signature */
+            .review-card { padding: 30px 20px; } /* Marge réduite pour gagner de la place */
+            .review-card blockquote { font-size: 1.15rem; margin-bottom: 15px; }
+            
+            /* --- FIX: Boutons Footer immenses --- */
+            .btn-call, .btn-whatsapp {
+                padding: 15px 15px;
+                font-size: 0.95rem; /* Police légèrement réduite */
+            }
+        }
+
+        /* Spécifique aux très petits téléphones (iPhone SE, etc.) */
+        @media (max-width: 480px) {
+            .reviews-wrapper { height: 480px; } /* Encore plus haut car le texte va beaucoup à la ligne */
+            .btn-whatsapp, .btn-call { 
+                font-size: 0.85rem; 
+                padding: 12px 10px; 
+                gap: 8px; /* Rapproche l'icône du texte */
+            } 
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <a href="#" class="nav-logo">Chemin d'Harmonie</a>
+        <button class="burger-btn" id="burger-btn">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+    </nav>
+
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="side-menu" id="sidemenu">
+        <a href="#accueil" class="menu-link">Accueil</a>
+        <a href="#philosophie" class="menu-link">Philosophie</a>
+        <a href="#diplomes" class="menu-link">Diplômes & Expertise</a>
+        <a href="#soins" class="menu-link">Nos Soins</a>
+        <a href="#avis" class="menu-link">Avis</a>
+        <a href="#tarifs" class="menu-link">Tarifs</a>
+        <a href="#contact" class="menu-link">Contact</a>
+    </div>
+
+    <div class="hero" id="accueil">
+        <div class="hero-carousel">
+            <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=1600&q=80" alt="Pierres Chaudes" class="carousel-img active">
+            <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1600&q=80" alt="Huiles et Serviettes Spa" class="carousel-img">
+            <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=1600&q=80" alt="Ambiance Zen" class="carousel-img">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-center">
+            <img src="C44E4A5C-60C8-483C-AB83-DC7EDE8DBB74.PNG" alt="Logo Chemin d'Harmonie" class="main-logo">
+            <h1>Chemin d'Harmonie <br>& Bien-Être</h1>
+            <p>Votre parenthèse à Aix-en-Provence</p>
+        </div>
+    </div>
+
+    <section id="philosophie" class="presentation">
+        <div class="presentation-carousel-container">
+            <img src="49950fb6-b3b7-460d-9588-49794b88b229.JPG" alt="Salon de massage" class="pres-slide active">
+            <img src="f74a6735-117a-4ebd-8b2b-e8bc222692c4.JPG" alt="Ambiance de soin" class="pres-slide">
+            <img src="faddcaa3-892a-424c-ba2a-629f3e07e659.JPG" alt="Espace détente" class="pres-slide">
+        </div>
+        <div class="presentation-text">
+            <h3>L'Art du Lâcher-Prise</h3>
+            <p>Prendre soin de soi n’est pas un luxe, c’est une nécessité. Au cœur du quartier Saint-Mitre à Aix-en-Provence, Marie-Pierre vous accueille dans un espace entièrement dédié à l'apaisement du corps et de l'esprit.</p>
+            <p>Chaque geste est précis, chaque soin est personnalisé pour devenir une véritable bulle de déconnexion et de reconnexion profonde à vous-même.</p>
+        </div>
+    </section>
+
+    <section id="diplomes" class="presentation reverse">
+        <div class="presentation-text">
+            <h3>L'Excellence & L'Expertise</h3>
+            <p>Pour vous offrir des soins à la fois professionnels, précis et profondément efficaces, je mets un point d'honneur à me former continuellement aux meilleures techniques reconnues.</p>
+            <p>Le salon est certifié dans trois domaines d'expertise distincts : le <strong>Massage Japonais du Visage (Kobido)</strong> pour son art ancestral liftant, la <strong>Madérothérapie et le Drainage Lymphatique</strong> pour sculpter et détoxifier le corps, ainsi que la thérapie énergétique <strong>LaHoChi</strong> pour harmoniser vos énergies. Des qualifications certifiées pour vous garantir une expérience de qualité et de véritables résultats.</p>
+        </div>
+        <img src="IMG_6973.JPG" alt="Diplômes de Marie-Pierre" class="presentation-img">
+    </section>
+
+    <section id="soins">
+        <h2 class="section-title">Nos Spécialités Signature</h2>
+        <div class="soins-grid">
+            <div class="soin-card">
+                <div class="soin-icon-wrapper"><i class="fa-solid fa-hand"></i></div>
+                <h3>Massage Kobido</h3>
+                <p>Massage facial ancestral japonais. Une chorégraphie manuelle rigoureuse et liftante qui redonne éclat, stimule le collagène et libère toutes les tensions du visage.</p>
+            </div>
+            <div class="soin-card">
+                <div class="soin-icon-wrapper"><i class="fa-solid fa-leaf"></i></div>
+                <h3>Madérothérapie</h3>
+                <p>Technique traditionnelle utilisant des outils en bois nobles associés au drainage lymphatique. Idéal pour sculpter la silhouette, relancer l'énergie cellulaire et détoxifier.</p>
+            </div>
+            <div class="soin-card">
+                <div class="soin-icon-wrapper"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <h3>Soin LaHoChi</h3>
+                <p>Une fréquence énergétique très haute transmise par apposition des mains. Une thérapie subtile qui harmonise les méridiens, calme le mental et réactive la vitalité corporelle.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="avis">
+        <h2 class="section-title">Nos Avis</h2>
+        <div class="reviews-section">
+            <div class="reviews-wrapper">
+                <div class="reviews-container active">
+                    <div class="review-card">
+                        <blockquote>"J'ai testé un massage dans le salon Chemin d’Harmonie et c’était magique. Tout s'est super bien passé du début à la fin. Elle est très douce, très professionnelle et attentionnée. C'était une véritable bulle d'apaisement et de reconnexion avec soi-même qui fait un bien fou. C'était vraiment top, je recommande les yeux fermés et j'y retournerai sans hésiter !"</blockquote>
+                        <div class="review-author">Baptiste B. — Madérothérapie</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reviews-nav">
+                <button class="nav-arrow" id="prev-review"><i class="fa-solid fa-arrow-left"></i></button>
+                <button class="nav-arrow" id="next-review"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <section id="tarifs">
+        <h2 class="section-title">La Carte des Soins</h2>
+        <div class="tarifs-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Prestation</th>
+                        <th>Durée</th>
+                        <th>Séance Unique</th>
+                        <th>Cure Privilège (6 séances)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Massage Japonais du Visage (Kobido)</strong></td>
+                        <td>60 min</td>
+                        <td>60 €</td>
+                        <td>300 €</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Madérothérapie & Drainage Lymphatique</strong></td>
+                        <td>60 min</td>
+                        <td>60 €</td>
+                        <td>300 €</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Soin Énergétique LaHoChi</strong></td>
+                        <td>30 / 60 min</td>
+                        <td>30 € / 50 €</td>
+                        <td>—</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-info">
+                <h3>Prendre Rendez-vous</h3>
+                <p><i class="fa-solid fa-location-dot"></i> Quartier Saint-Mitre, Aix-en-Provence</p>
+                <p><i class="fa-solid fa-phone"></i> 06.23.26.07.59</p>
+                <p><i class="fa-solid fa-envelope"></i> chemin.harmonie.marie.pierre@gmail.com</p>
+            </div>
+            <div class="footer-cta">
+                <a href="tel:0623260759" class="btn-call">
+                    <i class="fa-solid fa-phone-volume"></i> Appeler directement
+                </a>
+                <a href="https://wa.me/33623260759" class="btn-whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i> Envoyer un message maintenant
+                </a>
+                
+                <div class="social-container">
+                    <span class="social-text">Suivez-nous sur nos réseaux sociaux :</span>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/chemin.harmonie?igsh=MTk0YWl2am43aXN3cw==" target="_blank" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/share/1HQXKEifkS/?mibextid=wwXIfr" target="_blank" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-credits">
+            &copy; 2026 Chemin d'Harmonie & Bien-Être. Conçu avec soin.
+        </div>
+    </footer>
+
+    <script>
+        // 1. SCROLL NAVBAR
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 2. BURGER MENU
+        const burgerBtn = document.getElementById('burger-btn');
+        const sideMenu = document.getElementById('sidemenu');
+        const overlay = document.getElementById('menu-overlay');
+        const menuLinks = document.querySelectorAll('.menu-link');
+
+        function toggleMenu() {
+            sideMenu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            const icon = burgerBtn.querySelector('i');
+            if (sideMenu.classList.contains('active')) {
+                icon.className = 'fa-solid fa-xmark';
+            } else {
+                icon.className = 'fa-solid fa-bars-staggered';
+            }
+        }
+
+        burgerBtn.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+        menuLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // 3. MAIN HERO CAROUSEL
+        const heroImages = document.querySelectorAll('.carousel-img');
+        let currentImgIndex = 0;
+        setInterval(() => {
+            heroImages[currentImgIndex].classList.remove('active');
+            currentImgIndex = (currentImgIndex + 1) % heroImages.length;
+            heroImages[currentImgIndex].classList.add('active');
+        }, 5000);
+
+        // 4. PRESENTATION SALON CAROUSEL
+        const presImages = document.querySelectorAll('.pres-slide');
+        let currentPresIndex = 0;
+        setInterval(() => {
+            if(presImages.length > 0) {
+                presImages[currentPresIndex].classList.remove('active');
+                currentPresIndex = (currentPresIndex + 1) % presImages.length;
+                presImages[currentPresIndex].classList.add('active');
+            }
+        }, 4000);
+
+        // 5. CAROUSEL AVIS
+        const reviewGroups = document.querySelectorAll('.reviews-container');
+        const prevBtn = document.getElementById('prev-review');
+        const nextBtn = document.getElementById('next-review');
+        let currentGroupIndex = 0;
+
+        function showReviewGroup(index) {
+            reviewGroups[currentGroupIndex].classList.remove('active');
+            currentGroupIndex = index;
+            if (currentGroupIndex < 0) {
+                currentGroupIndex = reviewGroups.length - 1;
+            } else if (currentGroupIndex >= reviewGroups.length) {
+                currentGroupIndex = 0;
+            }
+            reviewGroups[currentGroupIndex].classList.add('active');
+        }
+
+        prevBtn.addEventListener('click', () => { showReviewGroup(currentGroupIndex - 1); });
+        nextBtn.addEventListener('click', () => { showReviewGroup(currentGroupIndex + 1); });
+    </script>
+</body>
+</html>
